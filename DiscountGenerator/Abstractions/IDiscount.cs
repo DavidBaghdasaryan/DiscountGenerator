@@ -1,9 +1,11 @@
-﻿namespace DiscountGenerator.Abstractions
+﻿using DiscountGenerator.Controllers;
+
+namespace DiscountGenerator.Abstractions
 {
-    public interface IDiscount
+    public interface IDiscountManager
     {
-        Task GetInfo();
-        Task PostInfo();
+        Task<List<ProductModel>> GetInfo();
+        Task PostInfo(ProductModel productModel);
         Task PostDiscount();
     }
 }

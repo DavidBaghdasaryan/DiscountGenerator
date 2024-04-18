@@ -1,12 +1,24 @@
+using DiscountGenerator.Abstractions;
+using DiscountGenerator.DAL.Abstractions.UnitOfWork;
+using DiscountGenerator.DAL.DBContext;
+using DiscountGenerator.DAL.Repository.UnitOfWork;
+using DiscountGenerator.Extensions;
+using DiscountGenerator.Managers;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
+builder.Services.AddDbContext<DiscountGeneratorDBContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IDiscountManager, DiscountManager>();
+builder.Services.ConfigureAutoMapper();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

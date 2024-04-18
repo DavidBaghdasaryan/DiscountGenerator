@@ -5,24 +5,24 @@ namespace DiscountGenerator.Controllers
 {
     public class DiscountController : Controller
     {
-        IDiscount iDiscount;
+        IDiscountManager iDiscount;
 
-        public DiscountController(IDiscount _iDiscount)
+        public DiscountController(IDiscountManager _iDiscount)
         {
             iDiscount = _iDiscount;
         }
 
         [HttpGet("GetInfo")]
-        public async Task<IActionResult> GetInfo( )
+        public async Task<IActionResult> GetInfo()
         {
-            await iDiscount.GetInfo();
-            return Ok();
+           var result= await iDiscount.GetInfo();
+            return Ok(result);
         }
 
         [HttpPost("PostInfo")]
-        public async Task<IActionResult> PostInfo( )
+        public async Task<IActionResult> PostInfo([FromBody] ProductModel  productModel)
         {
-            await iDiscount.PostInfo();
+            await iDiscount.PostInfo(productModel);
             return Ok();
         }
 
