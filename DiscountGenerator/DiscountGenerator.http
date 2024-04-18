@@ -1,0 +1,6 @@
+@DiscountGenerator_HostAddress = http://localhost:5145
+
+GET {{DiscountGenerator_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
