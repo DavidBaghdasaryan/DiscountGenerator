@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DiscountGenerator.Mapper;
 using DiscountGenerator.Controllers;
 using DiscountGenerator.DAL.Entity;
 using DiscountGenerator.Models;
@@ -20,5 +21,6 @@ namespace DiscountGenerator.Extensions
             IMapper mapper = mapperConfig.CreateMapper();
             services.AddSingleton(mapper);
         }
+
     }
 }

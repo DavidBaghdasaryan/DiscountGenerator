@@ -6,6 +6,7 @@ namespace DiscountGenerator.DAL.Abstractions
     {
         IQueryable<T> GetNoTracking(Expression<Func<T, bool>> predicate, params string[] includes);
         void Add(T entity);
+        void Update(T entity);
         int SaveChanges();
         Task<int> SaveChangesAsync();
     }

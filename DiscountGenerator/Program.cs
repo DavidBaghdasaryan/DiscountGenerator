@@ -16,9 +16,9 @@ builder.Services.AddDbContext<DiscountGeneratorDBContext>(options => options.Use
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.ConfigureAutoMapper();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IDiscountManager, DiscountManager>();
-builder.Services.ConfigureAutoMapper();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
