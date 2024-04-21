@@ -1,6 +1,6 @@
 ﻿using System.Xml.Serialization;
 
-namespace DiscountGenerator.ExportModels
+namespace DiscountGenerator.XMLModels.ExportModels
 {
     [XmlRoot(ElementName = "ProductInfo")]
     public class XMLProductInfoExportModel
@@ -24,15 +24,16 @@ namespace DiscountGenerator.ExportModels
 
         private string fix;
         [XmlElement(ElementName = "Fix")]
-        
-        public  string Fix
+
+        public string Fix
         {
             get { return fix; }
             set
             {
-              fix = value == "0" ? null : value; 
+                fix = value == "0" ? null : value;
             }
         }
+        public int ProductId { get; set; }
     }
 
 }

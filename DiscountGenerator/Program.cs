@@ -6,6 +6,9 @@ using DiscountGenerator.Extensions;
 using DiscountGenerator.Managers;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Quartz.Impl;
+using Quartz.Spi;
+using Quartz;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,8 +20,11 @@ builder.Services.AddDbContext<DiscountGeneratorDBContext>(options => options.Use
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.ConfigureAutoMapper();
+
+builder.Services.ConfigureQuartzService();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IDiscountManager, DiscountManager>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

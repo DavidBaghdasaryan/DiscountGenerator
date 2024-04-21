@@ -2,10 +2,12 @@
 using DiscountGenerator.Abstractions;
 using DiscountGenerator.DAL.Abstractions.UnitOfWork;
 using DiscountGenerator.DAL.Entity;
-using DiscountGenerator.ExportModels;
 using DiscountGenerator.Models;
+using DiscountGenerator.XMLModels.ExportModels;
+using DiscountGenerator.XMLModels.ImportModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
+using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Text;
 using System.Xml;
@@ -17,12 +19,12 @@ namespace DiscountGenerator.Managers
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-
+        private readonly string _path;
         public DiscountManager(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
-         
+            _path=_unitOfWork.GetValuesFromApps("ProductInfo");
         }
         public async Task<List<ProductModel>> GetInfo()
         {
@@ -52,7 +54,7 @@ namespace DiscountGenerator.Managers
             exportModel.Discount = _mapper.Map<DiscountExport>(discount);
             XmlSerializer serializer = new XmlSerializer(typeof(XMLProductInfoExportModel));
      
-            var path = string.Format(@"{0}\{1}.xml", _unitOfWork.GetValuesFromApps("ProductInfo"), DateTime.Now.ToString("HHmmss"));
+            var path = string.Format(@"{0}\{1}.xml", _path, DateTime.Now.ToString("HHmmss"));
             var settings = new XmlWriterSettings
             {
                 OmitXmlDeclaration = true,
@@ -67,8 +69,43 @@ namespace DiscountGenerator.Managers
         }
         public async Task SetDiscount()
         {
-            IEnumerable<string> files = Directory.EnumerateFiles("", "*.*").Where(s => s.EndsWith(".xml"));
+            XMLProductInfoImportModel importModel = new();
+            XmlSerializer serializer = new XmlSerializer(typeof(XMLProductInfoImportModel));
+            decimal discountValue=default;
+            bool isPercet=false;
+            IEnumerable<string> files = Directory.EnumerateFiles(_path, "*.*").Where(s => s.EndsWith(".xml"));
+            foreach (var file in files)
+            {
+                try
+                {
+                    using (StreamReader reader = new StreamReader(file))
+                    {
+                        importModel = (XMLProductInfoImportModel)serializer.Deserialize(reader);
+                        if (importModel!=null)
+                        {
+                            if(importModel.DiscountImport.Fix>0)
+                                discountValue= importModel.DiscountImport.Fix;
+                            if (importModel.DiscountImport.Percent > 0) {
+                                discountValue = importModel.DiscountImport.Percent;
+                                isPercet = true;
+                            }
+                            if (discountValue > 0) 
+                            {
+                                var product = _unitOfWork.ProductInfoRepository.GetNoTracking(x=>x.ProductID==importModel.DiscountImport.ProductId).FirstOrDefault();
+                                if (product != null)
+                                {
+                                    product.Price = isPercet? product.Price - (product.Price *discountValue/100) :
+                                        product.Price - discountValue;
+                                    _unitOfWork.ProductInfoRepository.Update(product);
+                                    await _unitOfWork.SaveChangesAsync();
+                                }
+                            }
 
+                        }
+                    }
+                }
+                catch (Exception ex) { } 
+            }
         }
     }
 }

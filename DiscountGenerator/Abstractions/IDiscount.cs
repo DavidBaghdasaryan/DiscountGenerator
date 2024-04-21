@@ -1,5 +1,4 @@
-﻿using DiscountGenerator.ExportModels;
-using DiscountGenerator.Models;
+﻿using DiscountGenerator.Models;
 
 namespace DiscountGenerator.Abstractions
 {
@@ -8,5 +7,6 @@ namespace DiscountGenerator.Abstractions
         Task<List<ProductModel>> GetInfo();
         Task PostInfo(ProductModel productModel);
         Task PostDiscount(DiscountModel discount);
+        Task SetDiscount();
     }
 }

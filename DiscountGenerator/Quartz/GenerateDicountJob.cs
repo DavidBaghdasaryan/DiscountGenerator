@@ -11,14 +11,14 @@ namespace DiscountGenerator.Quartz
         {
                 _serviceScopeFactory = serviceScopeFactory; 
         }
-        public Task Execute(IJobExecutionContext context)
+        public async Task Execute(IJobExecutionContext context)
         {
             using (var scope = _serviceScopeFactory.CreateScope())
             {
                 IDiscountManager orderManager = scope.ServiceProvider.GetService<IDiscountManager>();
-
+               await orderManager.SetDiscount();
             }
-            return Task.CompletedTask;
+            
         }
     }
 }

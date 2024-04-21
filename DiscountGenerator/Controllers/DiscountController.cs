@@ -33,5 +33,11 @@ namespace DiscountGenerator.Controllers
             await iDiscount.PostDiscount(discount);
             return Ok();
         }
+        [HttpPost("SetDiscount")]
+        public async Task<IActionResult> import()
+        {
+            await iDiscount.SetDiscount();
+            return Ok();
+        }
     }
 }
