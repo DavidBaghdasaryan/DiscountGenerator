@@ -65,6 +65,10 @@ namespace DiscountGenerator.Managers
                 serializer.Serialize(file, exportModel,ns);
             }
         }
-         
+        public async Task SetDiscount()
+        {
+            IEnumerable<string> files = Directory.EnumerateFiles("", "*.*").Where(s => s.EndsWith(".xml"));
+
+        }
     }
 }
