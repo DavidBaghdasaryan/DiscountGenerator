@@ -37,6 +37,6 @@ namespace DiscountGenerator.Managers
         {
             throw new NotImplementedException();
         }
-
+         
     }
 }
