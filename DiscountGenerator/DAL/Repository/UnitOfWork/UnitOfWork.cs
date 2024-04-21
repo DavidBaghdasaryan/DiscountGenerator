@@ -21,5 +21,18 @@ namespace DiscountGenerator.DAL.Repository.UnitOfWork
         {
             get { return productInfoRepository = productInfoRepository ?? new ProductInfoRepository(_dbContext); }
         }
+        public async Task<int> SaveChangesAsync()
+        {
+            return await _dbContext.SaveChangesAsync();
+        }
+        public int SaveChanges()
+        {
+            return _dbContext.SaveChanges();
+        }
+        public string GetValuesFromApps(string section) 
+        {
+            var valu=_configuration.GetSection("AppSettings:"+ section).Value;
+            return valu;
+        }
     }
 }

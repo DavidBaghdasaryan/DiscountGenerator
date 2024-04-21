@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace DiscountGenerator.Controllers
+namespace DiscountGenerator.Models
 {
     public class ProductModel
     {

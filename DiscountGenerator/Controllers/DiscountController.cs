@@ -1,4 +1,5 @@
 ﻿using DiscountGenerator.Abstractions;
+using DiscountGenerator.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DiscountGenerator.Controllers
@@ -27,9 +28,9 @@ namespace DiscountGenerator.Controllers
         }
 
         [HttpPost("PostDiscount")]
-        public async Task<IActionResult> PostDiscount()
+        public async Task<IActionResult> PostDiscount([FromBody]  DiscountModel discount)
         {
-            await iDiscount.PostDiscount();
+            await iDiscount.PostDiscount(discount);
             return Ok();
         }
     }

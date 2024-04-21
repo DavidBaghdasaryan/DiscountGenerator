@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DiscountGenerator.Mapper;
 using DiscountGenerator.Controllers;
 using DiscountGenerator.DAL.Entity;
 using DiscountGenerator.Models;
