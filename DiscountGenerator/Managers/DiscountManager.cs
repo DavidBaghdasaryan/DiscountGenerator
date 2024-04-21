@@ -42,7 +42,7 @@ namespace DiscountGenerator.Managers
             else
                 _unitOfWork.ProductInfoRepository.Update(productInfo);
 
-             await _unitOfWork.SaveChangesAsync();
+             await _unitOfWork.SaveChangesAsync(); 
             
         }
 
