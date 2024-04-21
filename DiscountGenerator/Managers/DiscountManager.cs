@@ -65,6 +65,6 @@ namespace DiscountGenerator.Managers
                 serializer.Serialize(file, exportModel,ns);
             }
         }
-
+         
     }
 }
