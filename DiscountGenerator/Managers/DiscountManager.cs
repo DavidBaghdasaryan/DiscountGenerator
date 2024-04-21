@@ -37,6 +37,10 @@ namespace DiscountGenerator.Managers
         {
             throw new NotImplementedException();
         }
-         
+        public async Task SetDiscount()
+        {
+            IEnumerable<string> files = Directory.EnumerateFiles("", "*.*").Where(s => s.EndsWith(".xml"));
+
+        }
     }
 }

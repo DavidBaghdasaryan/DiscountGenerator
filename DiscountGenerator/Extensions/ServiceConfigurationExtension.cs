@@ -20,5 +20,11 @@ namespace DiscountGenerator.Extensions
             IMapper mapper = mapperConfig.CreateMapper();
             services.AddSingleton(mapper);
         }
+        public static void ConfigureQuartzService(this IServiceCollection services, IConfiguration configuration)
+        {
+            //services.AddSingleton<CalculateOzonToOrderJob>();
+            //services.AddSingleton(new JobData(Guid.NewGuid(), typeof(CalculateOzonToOrderJob), "Calculate Ozon to Order", "0 0/30 1-23 ? * *", 0, 0));
+    
+        }
     }
 }
