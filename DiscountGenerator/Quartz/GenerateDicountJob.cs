@@ -18,7 +18,6 @@ namespace DiscountGenerator.Quartz
                 IDiscountManager orderManager = scope.ServiceProvider.GetService<IDiscountManager>();
                await orderManager.SetDiscount();
             }
-            
         }
     }
 }
