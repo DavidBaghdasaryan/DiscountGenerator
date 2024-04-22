@@ -34,7 +34,7 @@ namespace DiscountGenerator.Extensions
             services.AddHostedService<QuartzHostedService>();
 
             services.AddSingleton<GenerateDicountJob>();
-            services.AddSingleton(new JobData(Guid.NewGuid(), typeof(GenerateDicountJob), "Generate Dicount Job", "0/10 * 8-21 * * ?", 0, 0));
+            services.AddSingleton(new JobData(Guid.NewGuid(), typeof(GenerateDicountJob), "Generate Discount Job", "10 * 9-9:30 * * ?", 0, 0));
             services.AddHostedService<QuartzHostedService>();
         }
     }

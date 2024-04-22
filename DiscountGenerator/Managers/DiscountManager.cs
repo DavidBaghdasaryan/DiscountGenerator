@@ -53,8 +53,16 @@ namespace DiscountGenerator.Managers
             XMLProductInfoExportModel exportModel = new();
             exportModel.Discount = _mapper.Map<DiscountExport>(discount);
             XmlSerializer serializer = new XmlSerializer(typeof(XMLProductInfoExportModel));
-     
             var path = string.Format(@"{0}\{1}.xml", _path, DateTime.Now.ToString("HHmmss"));
+            try
+            {
+                Directory.EnumerateFiles(_path, "*.*").Where(s => s.EndsWith(".xml"));
+            }
+            catch 
+            {
+                Directory.CreateDirectory(_path);
+            }
+           
             var settings = new XmlWriterSettings
             {
                 OmitXmlDeclaration = true,
@@ -69,11 +77,22 @@ namespace DiscountGenerator.Managers
         }
         public async Task SetDiscount()
         {
+            IEnumerable<string> files = default;
             XMLProductInfoImportModel importModel = new();
             XmlSerializer serializer = new XmlSerializer(typeof(XMLProductInfoImportModel));
             decimal discountValue=default;
             bool isPercet=false;
-            IEnumerable<string> files = Directory.EnumerateFiles(_path, "*.*").Where(s => s.EndsWith(".xml"));
+           
+            try
+            {
+                files = Directory.EnumerateFiles(_path, "*.*").Where(s => s.EndsWith(".xml"));
+            }
+            catch 
+            {
+                Directory.CreateDirectory(_path);
+                files = Directory.EnumerateFiles(_path, "*.*").Where(s => s.EndsWith(".xml"));
+              
+            }
             foreach (var file in files)
             {
                 try

@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Quartz.Impl;
 using Quartz.Spi;
 using Quartz;
+using DiscountGenerator.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,8 +33,14 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseDeveloperExceptionPage();
 }
-
+else
+{
+    app.UseExceptionHandler("/error");
+}
+app.UseMiddleware<ExceptionMiddleware>();
+app.UseMiddleware<RequestLoggingMiddleware>();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
